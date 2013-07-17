@@ -2,9 +2,8 @@
  Mask Attack Database
 ======================
 
-TODO: TO UPDATE
-This package contains the access API and descriptions for the `Replay Attack
-Database <http://www.idiap.ch/dataset/replayattack/>`_. The actual raw data for
+This package contains the access API and descriptions for the `3D Mask Attack
+Database <http://www.idiap.ch/dataset/3dmad/>`_. The actual raw data for
 the database should be downloaded from the original URL. This package only
 contains the `Bob <http://www.idiap.ch/software/bob/>`_ accessor methods to use
 the DB directly from python, with our certified protocols.
@@ -28,7 +27,7 @@ The package is available in two different distribution formats:
 1. You can download it from `PyPI <http://pypi.python.org/pypi>`_, or
 
 2. You can download it in its source form from `its git repository
-   <https://github.com/bioidiap/xbob.db.replay>`_. When you download the
+   <https://github.com/bioidiap/xbob.db.maskattack>`_. When you download the
    version at the git repository, you will need to run a command to recreate
    the backend SQLite file required for its operation. This means that the
    database raw files must be installed somewhere in this case. With option
@@ -48,11 +47,11 @@ script)::
 
     install_requires=[
       ...
-      "xbob.db.replay",
+      "xbob.db.maskattack",
     ],
 
 Proceed normally with your ``boostrap/buildout`` steps and you should be all
-set. That means you can now import the ``xbob.db.replay`` namespace into your scripts.
+set. That means you can now import the ``xbob.db.maskattack`` namespace into your scripts.
 
 Modify your buildout.cfg and download from git
 ==============================================
@@ -68,8 +67,8 @@ lines::
   auto-checkout = *
   eggs = bob
          ...
-         xbob.db.replay
+         xbob.db.maskattack
 
   [sources]
-  xbob.db.replay = git https://github.com/bioidiap/xbob.db.replay.git
+  xbob.db.maskattack = git https://github.com/bioidiap/xbob.db.maskattack.git
   ...

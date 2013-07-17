@@ -77,7 +77,7 @@ def add_protocols(session, verbose):
             filter(File.session == sid).order_by(File.id)
       for k in q:
         if verbose: print " Adding protocol file '%s'..." % (k.path)
-        pu.fixfiles.append(k)
+        #pu.fixfiles.append(k)
         pu.files.append(k)
   
   protocol_name = 'classification'
@@ -126,7 +126,7 @@ def add_protocols(session, verbose):
             filter(File.session == sid).order_by(File.id)
       for k in q:
         if verbose: print " Adding protocol file '%s'..." % (k.path)
-        pu.fixfiles.append(k)
+        #pu.fixfiles.append(k)
         pu.files.append(k)
 
 def create_tables(args):

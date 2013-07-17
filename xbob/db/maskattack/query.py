@@ -12,7 +12,7 @@ import logging
 from bob.db import utils
 from .models import *
 from .driver import Interface
-import random
+from numpy import random
 
 INFO = Interface()
 
@@ -28,6 +28,7 @@ class Database(object):
   def __init__(self):
     # opens a session to the database - keep it open until the end
     self.connect()
+    random.seed(42)
 
   def __del__(self):
     """Releases the opened file descriptor"""
@@ -39,7 +40,7 @@ class Database(object):
       self.session = None
 
     else:
-      self.session = utils.session_try_readonly(INFO.type(), SQLITE_FILE)
+      self.session = utils.session(INFO.type(), SQLITE_FILE) #DOES NOT TRY READ ONLY FIRST, LOCK SHOULD BE WORKING - GLOBALLY!!! (unlike temp)
 
   def is_valid(self):
     """Returns if a valid session has been opened for reading the database"""
@@ -129,8 +130,9 @@ class Database(object):
           order_by(Client.id)
     return list(q)
     
-  def update_set(self,cvtype='fixed',client_id=None):
+  '''def update_set(self,cvtype='fixed',client_id=None):
     """Updates the set column for the client table based on the given cross-validation type.
+       This function is removed since it causes write-access conflicts.
 
     Keyword Parameters:
 
@@ -170,7 +172,7 @@ class Database(object):
         else:
             id_list = range(1,18)
             id_list.remove(client_id)
-            random.shuffle(id_list)
+            #random.shuffle(id_list)
             assignment = {client_id:'test'}
             for i in range(0,16):
                 if i < 8: 
@@ -196,7 +198,7 @@ class Database(object):
             for k in q:
                 p.files.append(k)
     
-    return assignment
+    return assignment'''
 
   def has_client_id(self, id):
     """Returns True if we have a client with a certain integer identifier"""
@@ -264,7 +266,7 @@ class Database(object):
     Keyword Parameters:
 
     protocol
-    One of the Biosecure protocols ('verification',).
+    One of the 3DMAD protocols ('verification', '').
 
     purposes
     The purposes required to be retrieved ('enrol', 'probeReal', 'probeMask', 'train') or a tuple
@@ -313,4 +315,11 @@ class Database(object):
             q = q.filter(not_(File.client_id.in_(client_ids)))
     
     q = q.order_by(File.client_id, File.session, File.shot)
-    return list(set(list(q))) # To remove duplicates
+    
+    # To remove duplicates
+    def removeDup(seq):
+      seen = set()
+      seen_add = seen.add
+      return [ x for x in seq if x not in seen and not seen_add(x)]
+      
+    return removeDup(list(q)) 

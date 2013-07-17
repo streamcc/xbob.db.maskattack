@@ -16,9 +16,9 @@ import numpy
 import bob
 
 Base = declarative_base()
-protocolPurpose_file_association_fix = Table('protocolPurpose_file_association_fix', Base.metadata,
-  Column('protocolPurpose_id', Integer, ForeignKey('protocolPurpose.id')),
-  Column('file_id', Integer, ForeignKey('file.id')))
+#protocolPurpose_file_association_fix = Table('protocolPurpose_file_association_fix', Base.metadata,
+#  Column('protocolPurpose_id', Integer, ForeignKey('protocolPurpose.id')),
+#  Column('file_id', Integer, ForeignKey('file.id')))
 protocolPurpose_file_association = Table('protocolPurpose_file_association', Base.metadata,
   Column('protocolPurpose_id', Integer, ForeignKey('protocolPurpose.id')),
   Column('file_id', Integer, ForeignKey('file.id')))
@@ -37,16 +37,17 @@ class Client(Base):
   set = Column(Enum(*set_choices))
   """Set to which this client belongs to"""
   
-  fixset = Column(Enum(*set_choices))
+  #fixset = Column(Enum(*set_choices))
   """Set to which this client belongs to"""
 
   def __init__(self, id, set):
     self.id = id
     self.set = set
-    self.fixset = set
+    #self.fixset = set
 
   def __repr__(self):
-    return "Client('%s', '%s', '%s')" % (self.id, self.set, self.fixset)
+    #return "Client('%s', '%s', '%s')" % (self.id, self.set, self.fixset)
+    return "Client('%s', '%s'')" % (self.id, self.set)
 
 class File(Base):
   """Generic file container"""
@@ -87,7 +88,7 @@ class File(Base):
   def __repr__(self):
     return "File('%s')" % self.path
 
-  def make_path(self, directory=None, extension=None):
+  def make_path(self, directory=None, extension='.hdf5'):
     """Wraps the current path so that a complete path is formed
 
     Keyword parameters:
@@ -108,7 +109,7 @@ class File(Base):
 
     return str(os.path.join(directory, self.path + extension))
 
-  def load(self, directory=None, extension='.hdf5', isdepth=True):
+  def load(self, directory=None, extension='.hdf5', isdepth=True, iseye=True):
     """Loads the data at the specified location and using the given extension.
 
     Keyword parameters:
@@ -128,13 +129,17 @@ class File(Base):
     color_image = f.read('Color_Data')
     if isdepth:
         depth_image = f.read('Depth_Data')
-    eye_pos = f.read('Eye_Pos')
+    if iseye:
+        eye_pos = f.read('Eye_Pos')
     del f
-    if isdepth:
-        depth_image = f.read('Depth_Data')
+    if isdepth and iseye:
         return (color_image, depth_image, eye_pos)
-    else:
+    elif isdepth:
+        return (color_image, depth_image)
+    elif iseye:
         return (color_image, eye_pos)
+    else:
+        return color_image
 
   def save(self, data, directory=None, extension='.hdf5'):
     """Saves the input data at the specified location and using the given
@@ -199,7 +204,7 @@ class ProtocolPurpose(Base):
   protocol = relationship("Protocol", backref=backref("purposes", order_by=id))
   """A direct link to the Protocol object that this protocol purpose belongs to"""
   
-  fixfiles = relationship("File", secondary=protocolPurpose_file_association_fix, backref=backref("fixprotocolPurposes", order_by=id))
+  #fixfiles = relationship("File", secondary=protocolPurpose_file_association_fix, backref=backref("fixprotocolPurposes", order_by=id))
   files = relationship("File", secondary=protocolPurpose_file_association, backref=backref("protocolPurposes", order_by=id))
   """Direct links to the File objects associated with this protocol purpose"""
 

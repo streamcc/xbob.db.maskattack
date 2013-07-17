@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # vim: set fileencoding=utf-8 :
-# Andre Anjos <andre.anjos@idiap.ch>
-# Sex 10 Ago 2012 14:22:33 CEST
+# Nesli Erdogmus <nesli.erdogmus@idiap.ch>
+# Tue 16 Jul 2013 14:22:33 CEST
 
 from setuptools import setup, find_packages
 
@@ -11,7 +11,7 @@ setup(
 
     name='xbob.db.maskattack',
     version='1.0.0a0',
-    description='Mask Attack Database Access API for Bob',
+    description='3D Mask Attack Database Access API for Bob',
     url='http://pypi.python.org/pypi/xbob.db.maskattack',
     license='GPLv3',
     author='Nesli Erdogmus',
