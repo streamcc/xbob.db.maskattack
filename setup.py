@@ -10,7 +10,7 @@ from setuptools import setup, find_packages
 setup(
 
     name='xbob.db.maskattack',
-    version='1.0.0a0',
+    version='1.0.1a0',
     description='3D Mask Attack Database Access API for Bob',
     url='http://pypi.python.org/pypi/xbob.db.maskattack',
     license='GPLv3',
